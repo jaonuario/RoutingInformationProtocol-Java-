@@ -3,7 +3,7 @@ package rip;
 import interfaces.RoutingProtocolManagementInterface;
 import interfaces.UnicastServiceInterface;
 
-public class RoutingInformationProtocol implements UnicastServiceInterface, RoutingProtocolManagementInterface {
+public class RoutingInformationProtocolNode implements UnicastServiceInterface, RoutingProtocolManagementInterface {
 
     @Override
     public void UPDataReq(short destinationEntity, String message) {
