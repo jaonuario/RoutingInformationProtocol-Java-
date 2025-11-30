@@ -23,5 +23,18 @@ public class DistanceTable {
         this.allNodeIds = allNodeIds;
         this.localVector = new int[allNodeIds.size()];
         Arrays.fill(localVector, INF);
+        setDistance(localNodeId, 0);
+    }
+
+    public int getDistance(short destinationId) {
+        int index = allNodeIds.indexOf(destinationId);
+        return (index != -1) ? localVector[index] : INF;
+    }
+
+    private void setDistance(short destinationId, int distance) {
+        int index = allNodeIds.indexOf(destinationId);
+        if (index != -1) {
+            localVector[index] = distance;
+        }
     }
 }
