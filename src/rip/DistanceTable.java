@@ -37,4 +37,46 @@ public class DistanceTable {
             localVector[index] = distance;
         }
     }
+
+    public boolean recalculate() {
+        int[] oldVector = Arrays.copyOf(localVector, localVector.length);
+
+        int[] newVector = new int[localVector.length];
+        Arrays.fill(newVector, INF);
+        newVector[allNodeIds.indexOf(localNodeId)] = 0;
+
+        for (int yIndex = 0; yIndex < allNodeIds.size(); yIndex++) {
+            short destinationY = allNodeIds.get(yIndex);
+            int minCost = INF;
+            
+            if (destinationY == localNodeId) continue; 
+
+            for (short neighborV : linkCosts.keySet()) {
+                int costXV = linkCosts.get(neighborV);
+
+                if (costXV == INF) continue; 
+
+                int[] vectorV = neighborVectors.getOrDefault(neighborV, null);
+                if (vectorV == null) continue; 
+
+                int costVY = vectorV[yIndex]; 
+
+                // Se o vizinho V não tem rota para Y, ou se a rota através de V é infinita, ignora
+                if (costVY == INF) continue;
+
+                int totalCost = costXV + costVY; 
+
+                if (minCost == INF || totalCost < minCost) {
+                    minCost = totalCost;
+                }
+            }
+            
+            newVector[yIndex] = minCost;
+        }
+
+        this.localVector = newVector;
+        
+        return !Arrays.equals(oldVector, newVector);
+    }
 }
+
